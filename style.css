@@ -15,6 +15,11 @@ h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
 
 }
 
+body{
+    background-color: var(--black);
+    color: var(--yellow);
+}
+
 .bg-yellow{
     background-color: var(--yellow);
 }
@@ -52,7 +57,128 @@ h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
     width: auto;
 }
 
+.logo2{
+    width: 100px;
+}
+
 .navbar{
     height: 70px;
     transition: 0.5s
+}
+
+/* Header */
+.header{
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://hips.hearstapps.com/hmg-prod/images/gettyimages-1271527965.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+.btn-custom{
+    background-color: var(--black);
+    color: var(--yellow);
+    border: 2px solid var(--yellow);        
+    border-radius: 50px;
+    margin: 0px 15px;
+    padding: 10px 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-custom:hover{
+    background-color: var(--yellow);
+    color: var(--black);
+    border: 2px solid var(--black);        
+    transform: scale(1.1);
+}
+
+
+/* Positioned */
+.positioned{
+    position: relative;
+    top: -150px;
+}
+
+.col-custom{
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid var(--black);
+    background-color: var(--yellow);
+    color: var(--black);
+    transition: 0.5s;
+    cursor: pointer;
+
+}
+
+.col-custom:hover{
+    background-color: var(--black);
+    color: var(--red);
+    border: 2px solid var(--red);
+    transform: scale(1.1);
+}
+
+
+/* Numeri incrementali */
+
+.number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--yellow);
+}
+
+.card-review{
+    height: 250px;
+    width: 500px;
+    border-radius: 10px;
+    border: 2px solid var(--yellow);
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media (max-width: 768px) {
+    .positioned{
+        position: static;
+        margin-top: 20px;
+    }
+
+}
+
+/* Pagina Annunci */
+
+.accordion-item, .accordion-button{
+    background-color: var(--black);
+    color: var(--yellow);
+}
+
+.accordion-button:not(.collapse){
+    color: var(--red);
+    background-color: var(--black);
+}
+
+.accordion-button:focus{
+    box-shadow: none;
+    
+}
+
+.card-custom{
+
+    width: 30%;
+    border: 2px solid var(--yellow);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.img-card{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
