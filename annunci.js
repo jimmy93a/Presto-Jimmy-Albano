@@ -86,22 +86,34 @@ fetch('./annunci.json').then((response)=> response.json() ).then((data)=>{
     };
     showCards(data);
 
-    function filterByCategory(categoria){
+    let radioButtons = document.querySelectorAll('.form-check-input');
+
+    function filterByCategory(array){
         // In questa funzione ho bisogno di ottenere un nuovo array partendo da data e gli elementi del nuovo array dovranno soddisfare la condizione per la quale la loro category sia uguale alla categoria che stiamo passando alla funzione
+
+        // La categoria voglio trovarla partendo da una lista di tutti i bottoni e usare il metodo .find() sull'array su questa lista. La condizione da utilizzare è il bottone che possiede l'attributo checked
+
+        let categoria = Array.from(radioButtons).find((button)=> button.checked).id;
+  
+
+
         if(categoria != 'All'){
-            let filtered = data.filter((annuncio)=> annuncio.category == categoria);
-            showCards(filtered);
+            let filtered = array.filter((annuncio)=> annuncio.category == categoria);
+            return filtered;
         }else{
-            showCards(data);
+            return array;
         };
 
     };
 
-    let radioButtons = document.querySelectorAll('.form-check-input');
+
 
     radioButtons.forEach((button)=>{
         button.addEventListener('click', ()=> {
-            filterByCategory(button.id);
+
+            setPriceInput();
+
+            globalFilter();
         });
     });
 
@@ -115,36 +127,49 @@ fetch('./annunci.json').then((response)=> response.json() ).then((data)=>{
         // Dopo aver catturato l'input, voglio settare come proprietà max dello stesso il valore più alto tra i price di ogni prodotto. Per farlo avrò bisogno di un array che contenga solo i prezzi, a quel punto lo ordino in maniera crescente/decrescente e prendermi l'elemento con il valore più alto. Questa funzione ovviamente funziona solo al caricamento della pagina.
         
 
-        let prices = data.map((annuncio)=> +annuncio.price);
+        let prices = filterByCategory(data).map((annuncio)=> +annuncio.price);
         prices.sort((a, b)=> a-b);
         let maxPrice = Math.ceil(prices.pop());
         priceInput.max = maxPrice;
         priceInput.value = maxPrice;
         priceValue.innerHTML = maxPrice;
     };
-    
-    setPriceInput();
 
-    function filterByPrice(){
-        let filtered = data.filter( (annuncio)=> +annuncio.price <= priceInput.value);
-        showCards(filtered);
+
+    setPriceInput();
+    
+
+    function filterByPrice(array){
+        let filtered = array.filter( (annuncio)=> +annuncio.price <= priceInput.value);
+        return filtered;
     };
 
     priceInput.addEventListener('input', ()=>{
         priceValue.innerHTML = priceInput.value;
-        filterByPrice();
+        globalFilter();
     });
 
     let wordInput = document.querySelector('#wordInput');
 
     // Ricordati che toLowerCase viene usato per rendere minuscolo tutto
-    function filterByWord(parola){
-        let filtered = data.filter((annuncio)=> annuncio.name.toLowerCase().includes(parola.toLowerCase()));
-        showCards(filtered);
+    function filterByWord(array){
+        let filtered = array.filter((annuncio)=> annuncio.name.toLowerCase().includes(wordInput.value.toLowerCase()));
+        return filtered;
     };
 
     wordInput.addEventListener('input', ()=> {
-    filterByWord(wordInput.value);
+    globalFilter();
 
     });
+
+
+    // Quello di cui abbiamo bisogno è che ad ogni evento scattino tutte e tre le funzioni di filtro ma non siano applicate tutte e tre sull'array data, bensì siano concatenate ed ognuna filtri il risultato della funzione di filtro precedente 
+
+    function globalFilter(){
+        let filteredByCategory = filterByCategory(data);
+        let filterdedByPrice = filterByPrice(filteredByCategory);
+        let filteredByWord = filterByWord(filterdedByPrice);
+
+        showCards(filteredByWord);
+    };
 });
